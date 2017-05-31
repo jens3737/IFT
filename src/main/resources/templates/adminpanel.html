@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="be">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Admin panel</title>
+
+    <!-- Bootstrap -->
+    <link href="../static/CSS/adminpanel/bootstrap.css"
+          th:href="@{../CSS/adminpanel/bootstrap.css}" rel="stylesheet" media="screen"/>
+    <!-- Font Awesome -->
+    <link href="../static/CSS/adminpanel/font-awesome.css"
+          th:href="@{../CSS/adminpanel/font-awesome.css}" rel="stylesheet" media="screen"/>
+    <!-- NProgress -->
+    <link href="../static/CSS/adminpanel/nprogress.css"
+          th:href="@{../CSS/adminpanel/nprogress.css}" rel="stylesheet" media="screen"/>
+    <!-- Custom Theme Style -->
+    <link href="../static/CSS/adminpanel/custom.css"
+          th:href="@{../CSS/adminpanel/custom.css}" rel="stylesheet" media="screen"/>
+
+    <script src="..static/js/adminpanel.js" th:src="@{../js/adminpanel.js}"></script>
+
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="clearfix"></div>
+
+                <!-- menu profile quick info -->
+                <div class="profile clearfix">
+
+                    <div class="profile_pic">
+                        <img src="images/user.png" alt="..." class="img-circle profile_img">
+                    </div>
+
+                    <div class="profile_info">
+                        <span>Welcome,</span>
+                        <h2 th:text="${CurrentUser.persoon.naam}"></h2>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /menu profile quick info -->
+
+                <br/>
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <ul class="nav side-menu">
+                            <li><a href="/home"><i class="fa fa-home"></i> Home </a></li>
+
+                            <li id="hulp"><a><i class="fa fa-plus"></i> Create <span class="fa fa-chevron-down"></span></a>
+                                <ul id="createTab" class="nav child_menu">
+                                    <li><a href="/begeleider">Begeleider</a></li>
+                                    <li><a href="/categorie">Categorie</a></li>
+                                    <li><a href="/home">Evaluatieformulier</a></li>
+                                    <li><a href="/school">School</a></li>
+                                    <li><a href="/stage">Stage</a></li>
+                                    <li><a href="/stageopdracht">Stageopdracht</a></li>
+                                    <li><a href="/stagiair">Stagiair</a></li>
+                                    <li><a href="/useraccount">Useraccount</a></li>
+                                </ul>
+                            </li>
+                            <li id="hulp2"><a><i class="fa fa-list-ul"></i> Overzicht <span class="fa fa-chevron-down"></span></a>
+                                <ul id="overzichtTab" class="nav child_menu">
+                                    <li><a href="/begeleiders">Begeleiders</a></li>
+                                    <li><a href="/scholen">Scholen</a></li>
+                                    <li><a href="/stageopdrachten">Stageopdrachten</a></li>
+                                    <li><a href="/stagiaires">Stagiaires</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="/analyse"><i class="fa fa-line-chart"></i> Analyse </a></li>
+
+                            <li><a><i class="fa fa-home"></i> Report & feedback </a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /sidebar menu -->
+
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                               aria-expanded="false">
+                                <img src="images/user.png" th:text="${CurrentUser.persoon.naam}" alt="">
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a th:onclick="'javascript:profielClicked(\'' + ${CurrentUser.id} + '\');'" >Profile</a></li>
+                                <li><a href="javascript:;"><span>Settings</span></a></li>
+                                <li><a id="btnLogout" href="javascript: document.logoutForm.submit()"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                                    <input hidden type="submit" value="Sign Out"/>
+                                </form>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Admin panel</h3>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="">
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="tile-stats">
+                                            <div class="icon"><i class="fa fa-3x fa-users"></i>
+                                            </div>
+                                            <div th:text="${StagiairAantal}" class="count"> </div>
+
+                                            <h3>Stagiairs</h3>
+                                            <p>Totaal</p>
+                                        </div>
+                                    </div>
+                                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="tile-stats">
+                                            <div class="icon"><i class="fa fa-3x fa-institution"></i>
+                                            </div>
+                                            <div th:text="${StageAantal}" class="count"></div>
+
+                                            <h3>Stages</h3>
+                                            <p>Lopende stages</p>
+                                        </div>
+                                    </div>
+                                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="tile-stats">
+                                            <div class="icon"><i class="fa fa-3x fa-folder"></i>
+                                            </div>
+                                            <div th:text="${StageopdrachtAantal}" class="count"></div>
+
+                                            <h3>Stageopdrachten</h3>
+                                            <p>Totaal</p>
+                                        </div>
+                                    </div>
+                                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <div class="tile-stats">
+                                            <div class="icon"><i class="fa fa-3x fa-users"></i>
+                                            </div>
+                                            <div th:text="${GebruikerAantal}" class="count"></div>
+
+                                            <h3>Gebruikers</h3>
+                                            <p>Unieke webapp gebruikers</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Stagiairs<small>per school</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <!--<li class="dropdown">-->
+                                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>-->
+                                        <!--<ul class="dropdown-menu" role="menu">-->
+                                            <!--<li><a href="#">Settings 1</a>-->
+                                            <!--</li>-->
+                                            <!--<li><a href="#">Settings 2</a>-->
+                                            <!--</li>-->
+                                        <!--</ul>-->
+                                    <!--</li>-->
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <canvas id="stagiairesSchool"></canvas>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Stagiaires <small>per categorie</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <!--<li class="dropdown">-->
+                                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>-->
+                                        <!--<ul class="dropdown-menu" role="menu">-->
+                                            <!--<li><a href="#">Settings 1</a>-->
+                                            <!--</li>-->
+                                            <!--<li><a href="#">Settings 2</a>-->
+                                            <!--</li>-->
+                                        <!--</ul>-->
+                                    <!--</li>-->
+                                    <li>
+                                        <a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <canvas id="stagiairesCategorie"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer >
+            <div class="pull-left">
+                Admin panel
+            </div>
+            <div class="pull-right">
+                © Gentelella
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+    </div>
+</div>
+
+<!-- jQuery -->
+<script type="text/javascript" th:src="@{../js/jquery.js}" ></script>
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{../js/bootstrap.js}"></script>
+<!-- FastClick -->
+<script type="text/javascript" th:src="@{../js/fastclick.js}"></script>
+<!-- NProgress -->
+<script type="text/javascript" th:src="@{../js/nprogress.js}"></script>
+<!-- Custom Theme Scripts -->
+<script type="text/javascript" th:src="@{../js/custom.js}"></script>
+<!-- Chart.js -->
+<script type="text/javascript" th:src="@{../js/Chart.js}"></script>
+<!-- Chart.js -->
+<script type="text/javascript" th:src="@{../js/Chart.min.js}"></script>
+
+
+<script type="text/javascript">
+    /* Charts */
+
+    $(document).ready(function () {
+        var contextCategorie = $("#stagiairesCategorie").get(0).getContext("2d");
+        var contextSchool = $("#stagiairesSchool").get(0).getContext("2d");
+        var options = {
+            segmentShowStroke: false
+        };
+
+
+
+
+        var pieDataCategorie = {
+            labels: ["Java", ".NET ", "Big Data", "Engaged workplace"],
+            datasets: [{
+                data: [7, 5, 1, 2],
+                backgroundColor: ["#BF4030", "#489341", "#7080D7", "#ccc"],
+            }],
+            // #2D3B83 blauw
+        };
+
+        var pieDataSchool = {
+            labels: ["Odisee", "Erasmus", "HoGent", "Vrije Universiteit Brussel"],
+            datasets: [{
+                data: [7, 5, 0, 1],
+                backgroundColor: ["#BF4030", "#489341", "#7080D7", "#ccc"],
+            }],
+            // #2D3B83 blauw
+        };
+
+
+        var chartCategorie = new Chart(contextCategorie, {
+            type: 'pie',
+            data: pieDataCategorie,
+            options: options
+        });
+
+        var chartSchool = new Chart(contextSchool, {
+            type: 'doughnut',
+            data: pieDataSchool,
+            options: options
+        });
+
+        function start() {
+            $("#overzichtTab").hide();
+            $("#createTab").hide();
+            $('#hulp').removeClass('active');
+            $('#hulp2').removeClass('active');
+        }
+        start();
+    });
+
+</script>
+
+
+</body>
+
+
+
+</html>

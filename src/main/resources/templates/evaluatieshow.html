@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Evaluatie</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <script type="text/javascript">
+        var page = 'evalueren';
+    </script>
+
+    <link href="..static/css/evaluatieshow.css"
+          th:href="@{../css/evaluatieshow.css}" rel="stylesheet" media="screen"/>
+</head>
+
+<body>
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <div class="row" >
+        <h1><span class="title-label"></span>Evaluatieoverzicht</h1>
+    </div>
+
+    <!-- Begin panel -->
+    <div class="row" >
+        <div class="col-lg-12 col-sm-12" >
+            <div class="pannel-group">
+                <div id="PanelAlgemeen" class="panel panel-default">
+                    <div id="algemeenHeader" class="panel-heading col-lg-12 col-sm-12 groen">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h3 class="titel">Algemeen</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="bodyAlgemeen" >
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div  class="panel-body pad centerthis">
+                                <div class="row ">
+                                    <div class="col-lg-12">
+                                        <b>Stagiair: </b>
+                                        <p class="p-inline" th:text="${stagiair.persoon.naam}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div  class="panel-body pad centerthis">
+                                <div class="row ">
+                                    <div class="col-lg-12">
+                                        <b>Begeleider: </b>
+                                        <p class="p-inline" th:text="${begeleider.persoon.naam}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div class="panel-body pad centerthis">
+                                <div class="row" >
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Datum: </b>
+                                        <p class="p-inline" th:text="${#dates.format(evaluatieformulier.datum, 'dd-MM-yyyy')}"  ></p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div class="panel-body pad centerthis">
+                                <div class="row" >
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Gemiddelde score: </b>
+                                        <p class="p-inline" th:text="${evaluatieformulier.gemiddeldeScore}"  ></p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="test" class="col-lg-12 col-md-12 col-sm-12" >
+            <div class="panel panel-default">
+                <div id="headerEvaluatie"  class="panel-heading groen">
+                    <div class="row">
+                        <div class="col col-xs-12">
+                            <h3>Overzicht evaluatie</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body" id="bodyEvaluatie">
+                    <div class="row">
+                        <div id="overflow" class="col-lg-12 col-md-12 col-sm-12" style=" margin-top: 5px" th:each="antwoord : ${antwoorden}">
+                            <div  class="container centerthis">
+                                <div th:if="${antwoord.vraag.type == false}">
+                                    <div id="centerSmallScreen" class="col-lg-6 col-md-6 col-sm-6">
+                                        <strong><p th:text=" ${antwoord.vraag.vraagdefinitie}"></p></strong>
+                                    </div>
+                                    <div id="probeersel" class="col-lg-6 col-md-6 col-sm-6">
+                                        <p class="" type="text" th:text="${antwoord.schaal.waarde}"  ></p>
+                                    </div>
+                                </div>
+
+                                <div th:if="${antwoord.vraag.type}">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <strong><p th:text="${antwoord.vraag.vraagdefinitie}"></p></strong>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <p class="fontweight"  th:text="${antwoord.openvraag}" ></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+//        $("#algemeenHeader").on("click", function () {
+//            $("#bodyAlgemeen").fadeIn("slow");
+//            $("#bodyEvaluatie").fadeOut("slow");
+//
+//        });
+//
+//        $("#headerEvaluatie").click(function () {
+//            $("#bodyAlgemeen").fadeOut("slow");
+//            $("#bodyEvaluatie").fadeIn("slow");
+//
+//        });
+
+        function start() {
+            $("#bodyAlgemeen").fadeIn("slow");
+
+        }
+        start();
+
+
+
+    });
+
+</script>
+
+</body>
+</html>

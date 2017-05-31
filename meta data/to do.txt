@@ -1,0 +1,6 @@
+DATABASE
+	- tabel competenties
+
+Back-end
+	-Junit testen
+	-Get redirects naar POST

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en"></head>
+    <title>IFT Login</title>
+    <meta http-equiv="Content-Type" content="text/html"; charset=UTF-8"/>
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <link href="..static/css/login.css"
+          th:href="@{css/login.css}" rel="stylesheet" media="screen"/>
+
+    <link href="https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min-jsf.css"
+          th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min-jsf.css}"
+          rel="stylesheet" media="screen"/>
+
+<script type="text/javascript">
+    var page = "";
+    $( document ).ready(function() {
+        $(this).keydown(function(e) {
+            if(e.keyCode == 13) {
+                $("#login").click();
+            }
+        });
+
+//        var e = jQuery.Event( 'keydown', { which: $.ui.keyCode.ENTER } );
+//
+//        $('#login').trigger(e);
+//        var e = jQuery.Event("keypress");
+//        e.keyCode = $.ui.keyCode.ENTER;
+//        $("#login").trigger(e);
+    });
+</script>
+
+
+</head>
+
+<body>
+<div class="container" >
+
+    <div class="row vertical-offset-100">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <img src="../static/images/logo_realdolmen.png" width="100"
+                     th:src="@{images/logo_realdolmen.png}"/>
+            </div>
+            <div class="panel-body">
+                <form accept-charset="UTF-8" role="form"
+                      th:action="@{/login}"  method="POST">
+                    <div th:if="${param.logout}" class="alert alert-success">
+                        Je bent uitgelogd.
+                    </div>
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        <strong>E-mail of wachtwoord onjuist.</strong>
+                    </div>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="E-mail" name="username" type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Wachtwoord" name="password" type="password" value=""/>
+                        </div>
+                        <!--<div class="checkbox">-->
+                            <!--<label>-->
+                                <!--<input name="remember" type="checkbox" value="Remember Me"/> Remember Me-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <input class="btn btn-lg btn-success btn-block" type="submit" id="login" value="Login"/>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+
+</html>

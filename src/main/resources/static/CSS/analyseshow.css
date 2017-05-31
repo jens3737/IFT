@@ -1,0 +1,64 @@
+
+#tabheaders > li > a {
+    background-color: #1F9A46;
+    color: white;
+}
+
+
+#tabheaders > li > a:hover {
+    background-color: #4AA733;
+    color: white;
+
+}
+
+
+#groen {
+    background-color: #489341 !important;
+    color: white !important;
+}
+
+.dropdown-menu {
+    width: 100%;
+    text-align: center;
+}
+
+
+.dropdown-menu>li>a:hover{
+    background: #4AA733 !important;
+}
+
+ul.dropdown-menu>li.active>a{
+    background: #4AA733 !important;
+}
+
+#dropdownmenu_display {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.table-striped > tbody > tr{
+    cursor: pointer;
+}
+
+.table-striped>tbody>tr:hover >td {
+    text-decoration: underline;
+
+}
+
+thead {
+    background-color: #1F9A46;
+    color: white;
+}
+
+.filterzoeken {
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+
+}
+
+.inhoudzoeken {
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+    margin-top: 3%;
+}
+

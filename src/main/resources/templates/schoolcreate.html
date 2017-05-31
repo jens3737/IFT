@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>School</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+
+    <link href="..static/css/schoolcreate.css" th:href="@{../css/schoolcreate.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <div class="row">
+        <h1>School toevoegen</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="panel panel-success" >
+                <div id="groen" class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-12">
+                            <h3>Toevoegen</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <form class="form-horizontal" th:object="${school}" th:action="@{/schoolopslaan}" method="POST">
+
+                            <input type="hidden" th:field="*{id}"/>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">School naam:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control validation" th:field="*{naam}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">School adres:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control validation" th:field="*{adres}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">School nummer:</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control validation" th:field="*{contactnummer}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Contactpersoon naam:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control validation" th:value="${persoonnaam}" name="persoonnaam" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Contact mail:</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control validation" th:value="${persoonmail}" name="persoonmail" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Contact nummer:</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control validation" th:value="${persoonnr}" name="persoonnr" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12 col-md-10 col-sm-12 center-block">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button id="submit" type="submit" class="btn btn-success btn-block" style="outline: 0; display: none;">Toevoegen</button>
+                                        <button id="toevoegen" type="button" class="btn btn-success btn-block">Toevoegen</button>
+                                    </div>
+                                    <br>
+                                    <div class="col-sm-12">
+                                        <button  style="align-self: center" th:align="center" type="submit" class="btn btn-danger btn-block">Annuleren</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var page = "";
+
+        /*jef*/
+//        $( ".form-control" ).change(function() {
+//            if ( $(this).val() == "" || $(this).val() == "-1") {
+//                $( this ).addClass( "error" );
+//            } else {
+//                $( this ).removeClass( "error" );
+//            }
+//
+//        });
+
+        /*jens*/
+        $( ".form-control" ).focus(function() {
+            if($(this).hasClass("error")){
+                $(this).removeClass("error");
+            }
+        });
+
+        $("#toevoegen").click(function () {
+            /*Jens*/
+            var error = 0;
+
+            $(".validation").each(function () {
+
+                /*Valideer of alle velden zijn ingevuld*/
+                if($(this).val() == ""){
+                    $(this).addClass("error");
+                    error =1;
+                }
+
+                /*Valdieer of rol is geselecteerd*/
+                if($( "#dropdownRol" ).val() == -1){
+                    $( "#dropdownRol" ).addClass("error");
+                    error =1;
+                }
+
+                /*Valideer of functieomschrijving ingevuld is (indien rol 1 of 2)*/
+                if(($( "#dropdownRol" ).val() == 1 || $( "#dropdownRol" ).val() == 2)){
+                    if($("#txtFunctieOmschrijving").val() == ""){
+                        $("#txtFunctieOmschrijving").addClass("error");
+                        error =1;
+                    }
+                    if($("#dropdownCat").val() == -1){
+                        $("#dropdownCat").addClass("error");
+                        error=1;
+                    }
+                }
+
+                if(error > 0){
+                    return;
+                }
+            })
+
+                /*jef*/
+//            var error = 0;
+//
+//            $(".form-control").each(function() {
+//                if ( $(this).val() == "" || $(this).val() == "-1") {
+//                    $( this ).addClass( "error" );
+//                    error = error + 1;
+//                }   else {
+//                    $( this ).removeClass( "error" );
+//                }
+//            });
+
+            if (error == 0) {
+                $('#submit').click();
+            }
+            else {
+                $('#submit').click();
+            }
+
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

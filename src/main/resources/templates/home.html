@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Home</title>
+
+    <link href="..static/css/home.css"
+          th:href="@{css/home.css}" rel="stylesheet" media="screen"/>
+
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+    <script type="text/javascript">
+        var page = "home";
+    </script>
+
+    <script src="..static/js/home.js" th:src="@{../../js/home.js}"></script>
+
+    <!--Script en stylesheet voor cookie banner-->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#216942",
+                        "text": "#b2d192"
+                    },
+                    "button": {
+                        "background": "#afed71"
+                    }
+                },
+                "theme": "edgeless",
+                "position": "bottom-left",
+                "content": {
+                    "href": "http://www.belgie.fm/cookies.php"
+                }
+            })});
+    </script>
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <h1>Overzicht <span class="title-label"></span></h1>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4>Stagiaires onder begeleiding</h4>
+        </div>
+        <div class="panel-body">
+            <div th:if="${isBegeleider} == false">
+                <h4>Wees welkom</h4>
+            </div>
+
+
+
+            <div th:if="${isBegeleider} == true">
+                <div th:unless="${not #lists.isEmpty(stagiaires)}">
+                    <h4>Geen resultaten gevonden</h4>
+                </div>
+                <!--<div th:if="${not #lists.isEmpty(stagiaires)}">-->
+                <table class="table table-striped table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>School</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    <tr th:onclick="'javascript:stagiairRowClicked(\'' + ${stagiair.id} + '\');'" th:each="stagiair : ${stagiaires}">
+
+                        <td>
+                            <span th:text="${stagiair.persoon.naam}"></span>
+                            <span class="glyphicon glyphicon-arrow-right pull-right"></span>
+                        </td>
+                        <td th:text="${stagiair.school.naam}"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <!--</div>-->
+
+                <!--<ul id="paginationBar" class="pagination"></ul>-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        function closeAllTabs() {
+            // Close all tabs
+            document.getElementById("tabStagiairs").style.display = 'none';
+            document.getElementById("tabStageopdrachten").style.display = 'none';
+            document.getElementById("tabStagebegeleiders").style.display = 'none';
+            document.getElementById("tabScholen").style.display = 'none';
+
+            $("#tabStagiair").removeClass(" active");
+            $("#tabStageopdracht").removeClass(" active");
+            $("#tabStagebegeleider").removeClass(" active");
+            $("#tabSchool").removeClass(" active");
+        }
+
+
+        $("#tabStagiair").click(function () {
+            closeAllTabs();
+            document.getElementById('tabStagiairs').style.display = 'block';
+            document.getElementById('tabStagiair').className = "active";
+        });
+        $("#tabStageopdracht").click(function () {
+            closeAllTabs();
+            openStageopdrachten();
+        });
+
+        $("#tabStagebegeleider").click(function () {
+            closeAllTabs();
+            document.getElementById('tabStagebegeleider').className = "active";
+            document.getElementById('tabStagebegeleiders').style.display = 'block';
+        });
+
+        $("#tabSchool").click(function () {
+            closeAllTabs();
+            document.getElementById('tabSchool').className = "active";
+            document.getElementById('tabScholen').style.display = 'block';
+        });
+
+        function openStageopdrachten() {
+            document.getElementById('tabStageopdracht').className = "active";
+            document.getElementById('tabStageopdrachten').style.display = 'block';
+        }
+        openStageopdrachten();
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Stageopdracht</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <link href="..static/css/stageopdrachtshow.css"
+          th:href="@{../css/stageopdrachtshow.css}" rel="stylesheet" media="screen"/>
+    <script type="text/javascript" th:inline="javascript">
+
+        var page = "zoeken";
+        var stageIndex = 0;
+
+        /*<![CDATA[*/
+            var stageStartData = [[${stageStartData}]];
+            var stageEindData = [[${stageEindData}]];
+        /*]]>*/
+    </script>
+    <script src="..static/js/zoeken.js" th:src="@{../js/zoeken.js}"></script>
+
+</head>
+
+<body>
+
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <div class="row" >
+        <h1 th:text="${stageopdracht.naam}"><span class="title-label"></span></h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12" >
+            <div class="panel panel-default">
+                <div id="groen" class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-12">
+                            <h3 class="titel">Lopende stages</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div th:unless="${not #lists.isEmpty(stages)}">
+                        <h4>Er zijn momenteel geen lopende stages.</h4>
+                    </div>
+
+                    <div th:if="${not #lists.isEmpty(stages)}">
+                        <table class="table table-striped table-bordered table-list">
+                            <thead>
+                            <tr>
+                                <th>Termijn</th>
+                                <th>Stagiair</th>
+                                <!--<th>Begeleider</th>-->
+                            </tr>
+                            </thead>
+                            <tbody >
+                            <tr th:onclick="'javascript:stagiairRowClicked(\'' + ${stage.stagiair.id} + '\');'" id="testie" th:each="stage : ${stages}">
+                                <!--<td th:text="${stage.startDatum} + ' - ' + ${stage.eindDatum}"></td>-->
+                                <td th:text="${#dates.format(stage.startDatum, 'dd-MM-yyyy')} + ' - ' + ${#dates.format(stage.eindDatum, 'dd-MM-yyyy')}"></td>
+                                <td >
+                                    <span th:text="${stage.stagiair.persoon.naam}"></span>
+                                    <span class="glyphicon glyphicon-arrow-right pull-right" style="margin-top: 0px"></span>
+                                </td>
+                                <!--<td>zetter</td>-->
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Begin panel -->
+    <div class="row" >
+        <div class="col-lg-12 col-sm-12" >
+            <div class="pannel-group">
+                <div id="PanelOverzicht" class="panel panel-default">
+                    <div id="headerOverzicht" class="panel-heading headerClickable activeHeader">
+                        <div class="row">
+                            <div class="col col-xs-12">
+                                <h3 class="titel"><i class="glyphicon glyphicon-minus"></i>Overzicht</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bodyOverzicht" class="panel-body">
+                        <div class="row">
+                            <div class="OpdrCategorie col-lg-6 col-sm-6">
+                                <b>Categorie:</b> <p th:text="${stageopdracht.categorie.naam}"></p>
+                            </div>
+                            <div class="OpdrLocatie col-lg-6 col-sm-6">
+                                <b>Locatie: </b> <p th:text="${stageopdracht.locatie}"></p>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="OpdrOmschrijving col-lg-12 col-sm-12" >
+                                <b>Omschrijving:</b> <p th:utext="${stageopdracht.omschrijving}"> </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="PanelScope" class="panel panel-default">
+                    <div id="headerScope" class="panel-heading headerClickable">
+                        <div class="row">
+                            <div class="col col-xs-12">
+                                <h3 class="titel"><i class="glyphicon glyphicon-plus"></i>Scope</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bodyScope" class="panel-body">
+                        <p th:utext="${stageopdracht.scope}"></p>
+                    </div>
+                </div>
+
+
+                <div id="PanelCompetenties" class="panel panel-default">
+                    <div id="headerCompetenties" class="panel-heading headerClickable">
+                        <div class="row">
+                            <div class="col col-xs-12">
+                                <h3 class="titel"><i class="glyphicon glyphicon-plus"></i>Competenties</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bodyCompetenties" class="panel-body">
+                        <p th:utext="${stageopdracht.competenties}" ></p>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:inline="javascript">
+    /* Script voor het accordion menu */
+    var page = "zoeken";
+
+    /*<![CDATA[*/
+    var stageStartData = [[${stageStartData}]];
+    var stageEindData = [[${stageEindData}]];
+    var stageopdrachtNaam = [[${stageopdracht.naam}]]
+
+    /*]]>*/
+
+    $(document).ready(function() {
+
+        $("title").html(stageopdrachtNaam);
+
+        function start() {
+            $('#headerOverzicht').css('background-color', '#489341');
+            $('#headerOverzicht').addClass("activeHeader");
+            $('#headerScope').css('background-color', '#f5f5f5');
+            $('#headerCompetenties').css('background-color', '#f5f5f5');
+
+        }
+
+        function closeOverzicht() {
+            $('#headerOverzicht').css('background-color', '#f5f5f5');
+            $('#headerOverzicht').css('color', '#000000');
+            if($('#headerOverzicht').hasClass("activeHeader")){
+                $('#headerOverzicht').removeClass("activeHeader");
+                changeGlyphIcon("#headerOverzicht");
+            }
+            $("#bodyOverzicht").hide("slow");
+        }
+
+        function openOverzicht() {
+            $('#headerOverzicht').css('background-color', '#489341');
+            $('#headerOverzicht').css('color', 'white');
+            changeGlyphIcon("#headerOverzicht");
+            $('#headerOverzicht').addClass("activeHeader");
+            $("#bodyOverzicht").show("slow");
+        }
+
+
+        function closeScope() {
+            $('#headerScope').css('background-color', '#f5f5f5');
+            $('#headerScope').css('color', '#000000');
+            if($('#headerScope').hasClass("activeHeader")){
+                $('#headerScope').removeClass("activeHeader");
+                changeGlyphIcon("#headerScope");
+            }
+            $("#bodyScope").hide("slow");
+        }
+
+        function openScope() {
+            $('#headerScope').css('background-color', '#489341');
+            $('#headerScope').css('color', 'white');
+            changeGlyphIcon("#headerScope");
+            $('#headerScope').addClass("activeHeader");
+            $("#bodyScope").show("slow");
+        }
+
+        function closeCompetenties() {
+            $('#headerCompetenties').css('background-color', '#f5f5f5');
+            $('#headerCompetenties').css('color', '#000000');
+
+            if($('#headerCompetenties').hasClass("activeHeader")){
+                $('#headerCompetenties').removeClass("activeHeader");
+                changeGlyphIcon("#headerCompetenties");
+            }
+            $("#bodyCompetenties").hide("slow");
+        }
+
+        function openCompetenties() {
+            $('#headerCompetenties').css('background-color', '#489341');
+            $('#headerCompetenties').css('color', 'white');
+            changeGlyphIcon("#headerCompetenties");
+            $('#headerCompetenties').addClass("activeHeader");
+            $("#bodyCompetenties").show("slow");
+        }
+        function changeGlyphIcon(element){
+
+            console.log($(element).attr('id'));
+            console.log(element);
+
+            if($(element).hasClass("activeHeader")){            }
+            else{
+                if($(element).find('i').hasClass("glyphicon-plus")){
+                    $(element).find('i').removeClass("glyphicon-plus");
+                    $(element).find('i').addClass("glyphicon-minus");
+                }
+
+                else{
+                    $(element).find('i').removeClass("glyphicon-minus");
+                    $(element).find('i').addClass("glyphicon-plus");
+                }
+            }
+        }
+
+
+
+        $("#headerOverzicht").click(function () {
+            if($(this).hasClass("activeHeader")){}
+            else{
+                openOverzicht();
+                closeCompetenties();
+                closeScope();
+            }
+
+        });
+
+        $("#headerScope").click(function () {
+            if($(this).hasClass("activeHeader")){}
+            else{
+                openScope();
+                closeCompetenties();
+                closeOverzicht();
+            }
+        });
+
+        $("#headerCompetenties").click(function () {
+            if($(this).hasClass("activeHeader")){console.log("kek");}
+            else{
+                openCompetenties();
+                closeOverzicht();
+                closeScope();
+            }
+        });
+
+        openOverzicht();
+        $("#bodyCompetenties").hide("slow");
+        $("#bodyScope").hide("slow");
+//        closeScope();
+//        closeCompetenties();
+        start();
+
+
+    });
+
+</script>
+</body>
+</html>

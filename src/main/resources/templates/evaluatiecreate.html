@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Evaluatie</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <link href="..static/css/evaluatiecreate.css" th:href="@{../css/evaluatiecreate.css}" rel="stylesheet" media="screen"/>
+
+
+    <script th:inline="javascript">
+        var contentSchaal ="";
+        /*<![CDATA[*/
+        var stagiairID = [[${stagiairID}]];
+        var aantalPaginas = [[${aantalPaginas}]];
+        var huidigePagina = [[${huidigePagina}]];
+        var page = "evalueren";
+        var link = "/vragenpage?p=";
+        /*]]>*/
+
+        /* maak inhoud nieuwe table
+         * ontvangt JSON object van ajax call
+         * */
+        function maakSchalenButtons(schalen){
+            var content = "<div class='btn-group MCvragen' data-toggle='buttons'>";
+            $.each(schalen, function(i, item){
+                content = content + "<label class='btn btn-success btnRadio' data-toggle='tooltip' data-placement='bottom' title='" + item.waarde+ "'>" +
+                                "<input class='form-control' type='radio' value='" + item.id + "'>" + item.id + "</label>"
+            });
+            content = content + "</div>";
+            contentSchaal = content;
+        }
+
+        function createDynamicFormulier(data){
+            var content = "";
+            var isAnswered = false;
+            maakSchalenButtons(data.schalen);
+            $.each(data.vragen, function(i, item) {
+
+                //kijk of vragen al beantwoord zijn, indien wel, laad data uit lokale json variabele ipv controller
+                $.each(vraagAntwoord, function(j, jitem) {
+                    if(item.id == jitem.vraagID){
+                        isAnswered = true;
+                        loadJsonContent(data.vragen, data.schalen);
+                        return false;
+                    }
+
+                });
+                if(isAnswered){
+                    return false;
+                }
+
+                if(item.type == false && isAnswered == false){
+                    content = content + "<div id='overflow' class='col-lg-10 col-md-10 col-sm-10' style=' margin-top: 5px'><div class='container'><div><div id='centerSmallScreen' class='col-lg-6 col-md-6 col-sm-6 col-xs-12 vraagdiv'><strong>" +
+                        "<p class='vraag'id='" + item.id + "'>" + item.vraagdefinitie + "</p></strong></div>" +
+                        "<div id='probeersel' class='col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center'>" + contentSchaal
+                        + "</div></div></div><hr></div>"
+                }
+                else if(isAnswered == false){
+                    content = content + "<div id='overflow' class='col-lg-10 col-md-10 col-sm-10' style=' margin-top: 5px'><div class='container'><div><div class='col-lg-4 col-md-4 col-sm-12'><strong>" +
+                        "<p class='vraag'id='" + item.id +  "'>" + item.vraagdefinitie + "</p></strong></div>" +
+                        "<div class='col-lg-8 col-md-8 col-sm-12'><textarea class='form-control openvraag' rows='5'></textarea></div>"
+                        + "</div></div><hr></div>"
+                }
+            });
+            if(!isAnswered){
+                smoothContent(content);
+            }
+        }
+
+    </script>
+    <script src="..static/js/evalueren.js" th:src="@{../js/evalueren.js}"></script>
+
+</head>
+<body>
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <h1>Evaluatieformulier toevoegen</h1>
+
+    <div class="row">
+        <div class="test" class="col-lg-12 col-md-12 col-sm-12">
+            <div class="panel panel-default">
+                <div id="groen"  class="panel-heading">
+                    <h3 th:text="${stagiair.persoon.naam}"></h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                            <div id="kaas" class="row">
+                                <div id="overflow" class="col-lg-10 col-md-10 col-sm-10" style=" margin-top: 5px" th:each="vraag : ${vragenlijst}">
+                                    <div class="container">
+
+
+                                        <div th:if="${vraag.type == false}">
+                                            <div id="centerSmallScreen" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 vraagdiv">
+                                                <strong><p class="vraag" th:id="${vraag.id}" th:text=" ${vraag.vraagdefinitie}"></p></strong>
+                                            </div>
+                                            <div id="probeersel" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center">
+                                                <div class="btn-group MCvragen" data-toggle="buttons">
+                                                    <label class="btn btn-success btnRadio" th:each="schaal : ${schalen}" data-toggle="tooltip" data-placement="bottom" th:title="${schaal.waarde}">
+                                                        <input name="btngroupRadioUnit" class="form-control" type="radio" th:value="${schaal.id}" th:text="${schaal.id}" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div th:if="${vraag.type}">
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <strong><p th:text="${vraag.vraagdefinitie}"></p></strong>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                                <textarea class="form-control openvraag" rows="5" ></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <hr>
+                                </div>
+                            </div>
+
+                        <div class="col-lg-12 col-md-10 col-sm-12 center-block" style="padding-bottom: 20px">
+                            <div class="form-group">
+                                <div id="submit" class="hide col-xs-6 col-sm-6 col-md-offset-3 col-xs-offset-3">
+                                    <button id="saveEval" type="button" class="btn btn-success btn-block">Toevoegen</button>
+                                </div>
+                                <br>
+                                <!-- Link naar evaluatie overzicht?-->
+                                <div class="col-xs-6 col-sm-6 col-md-offset-3 col-xs-offset-3">
+                                    <button id="cancelEval" style="align-self: center" th:align="center" class="btn btn-danger btn-block">Annuleren</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <ul id="paginationBar" class="pagination"></ul>
+                        </div>
+
+                        <div id="error" class="hide text-center"><p style="color: red">Gelieve alle vragen te beantwoorden</p></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

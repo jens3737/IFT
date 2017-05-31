@@ -1,0 +1,146 @@
+.title-label{
+    font-weight:400;
+    font-size:24px;
+}
+
+h1 {
+    color: #ccc;
+    text-align: center;
+}
+
+.p-inline {
+    display: inline
+}
+
+.displayData{
+    /*font-size: larger;*/
+}
+
+/*.accountInput, .contactInput {*/
+    /*display: none;*/
+/*}*/
+
+/*.form-group {*/
+    /*border-bottom: inset;*/
+/*}*/
+
+h3 {
+    word-wrap: break-word;
+}
+
+#txtGeslacht2 {
+    pointer-events: none;
+}
+
+div#headerPersoonlijk.panel-heading {
+    background-color: #489341 !important;
+    color: white !important;
+}
+
+p {
+    display: inline;
+}
+
+label {
+    display: inline;
+}
+
+
+.hide {
+    display: none;
+}
+
+div#headerAccount.panel-heading {
+    background-color: #489341 !important;
+    color: white !important;
+}
+
+div#headerContact.panel-heading {
+    background-color: #489341 !important;
+    color: white !important;
+}
+
+#accountEdit, #accountCancel, #accountSubmit {
+    border: 2px solid #fff
+}
+
+.modal-body {
+    border-bottom: none !important;
+}
+
+.modal-footer {
+    border: none;
+}
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    .side-collapse-container {
+        width: 100%;
+        position: relative;
+        left: 0;
+        transition: left .4s;
+    }
+
+    .side-collapse-container.out {
+        left: 200px;
+    }
+
+    #logout-btn {
+        position: absolute;
+        bottom: 5px;
+    }
+
+    .side-collapse {
+        top: 50px;
+        bottom: 0;
+        left: 0;
+        width: 200px;
+        position: fixed;
+        overflow: hidden;
+        transition: width .4s;
+    }
+
+    .side-collapse.in {
+        width: 0;
+    }
+
+    label span {
+        display: none;
+    }
+
+    label .fa {
+        font-size: 16px;
+    }
+
+    .tab_container {
+        width: 98%;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-10 {
+        align-self: center;
+        width: 95%;
+        margin-left: 2.5%;
+        margin-right:2.5%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-md-10 {
+        align-self: center;
+        width: 95%;
+        margin-left: 2.5%;
+        margin-right:2.5%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+

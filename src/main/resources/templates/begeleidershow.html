@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Begeleider</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <script type="text/javascript" th:inline="javascript">
+        var page = 'zoeken';
+
+        /*<![CDATA[*/
+        var begeleiderNaam = [[${begeleider.persoon.naam}]]
+        /*]]>*/
+
+        $(document).ready(function() {
+            $("title").html(begeleiderNaam);
+        });
+    </script>
+
+    <link href="..static/css/begeleidershow.css"
+          th:href="@{../css/begeleidershow.css}" rel="stylesheet" media="screen"/>
+    <script src="..static/js/zoeken.js" th:src="@{../js/zoeken.js}"></script>
+</head>
+
+<body>
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <div class="row">
+        <h1 th:text="${begeleider.persoon.naam}"><span class="title-label"></span></h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="panel panel-default panel-table">
+                <div id="groen" class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-12">
+                            <h3 class="titel">Begeleiding</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div style="margin-left: 15px" th:unless="${not #lists.isEmpty(stages)}">
+                        <h5>Begeleidt momenteel geen stages</h5>
+                    </div>
+
+                    <div style="overflow-x:auto" th:if="${not #lists.isEmpty(stages)}">
+                        <table class="table table-striped table-bordered  "><!-- table-list table-responsive-->
+                            <thead>
+                            <tr>
+                                <th>Stagiair</th>
+                                <th>Stageopdracht</th>
+                                <th>Termijn</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="stage : ${stages}">
+                                <td class="singleBlockGlow" th:onclick="'javascript:stagiairRowClicked(\'' + ${stage.stagiair.id} + '\');'" ">
+                                    <span th:text="${stage.stagiair.persoon.naam}"></span>
+                                    <span class="glyphicon glyphicon-arrow-right pull-right" style="margin-top: 8px"></span>
+                                </td>
+                                <td class="singleBlockGlow" th:onclick="'javascript:stageopdrachtRowClicked(\'' + ${stage.stageopdracht.id} + '\');'">
+                                    <span th:text="${stage.stageopdracht.naam}"></span>
+                                    <span class="glyphicon glyphicon-arrow-right pull-right" style="margin-top: 8px"></span>
+                                </td>
+                                <td class="nostyle" th:text="${#dates.format(stage.startDatum, 'dd-MM-yyyy')} + ' - ' + ${#dates.format(stage.eindDatum, 'dd-MM-yyyy')}"></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Begin panel -->
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="pannel-group">
+                <div id="PanelAlgemeen" class="panel panel-default">
+                    <div id="headerAlgemeen" class="panel-heading">
+                        <div class="row">
+                            <div class="col col-xs-12">
+                                <h3 class="titel">Algemeen</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div id="bodyAlgemeen" class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Naam:</b>
+                                        <p class="p-inline" th:text="${begeleider.persoon.naam}"></p>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Geslacht: </b>
+                                        <p class="p-inline" th:if="${begeleider.persoon.geslacht} == false"
+                                           th:text="Man"></p>
+                                        <p class="p-inline" th:if="${begeleider.persoon.geslacht} == true"
+                                           th:text="Vrouw"></p>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Geboortedatum: </b>
+                                        <p class="p-inline" th:text="${geboorteDatum}"></p>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Functieomschrijving: </b>
+                                        <p class="p-inline" th:text="${begeleider.functieOmschrijving}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Gsm:</b>
+                                        <p class="p-inline" th:text="${begeleider.persoon.gsm}"></p>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Email:</b>
+                                        <p class="p-inline" th:text="${begeleider.persoon.email}"></p>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <b>Adres:</b>
+                                        <p class="p-inline" th:text="${begeleider.persoon.adres}"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    /* Script voor het accordion menu */
+    $(document).ready(function () {
+        function start() {
+            $('#headerAlgemeen').css('background-color', '#489341');
+            $('#headerContact').css('background-color', '#f5f5f5');
+        }
+
+
+        function closeAlgemeen() {
+            $('#headerAlgemeen').css('background-color', '#f5f5f5');
+            $('#headerAlgemeen').css('color', '#000000');
+            $("#bodyAlgemeen").hide("slow");
+        }
+
+        function openAlgemeen() {
+            $('#headerAlgemeen').css('background-color', '#489341');
+            $('#headerAlgemeen').css('color', 'white');
+            $("#bodyAlgemeen").show("slow");
+        }
+
+
+        function closeContact() {
+            $('#headerContact').css('background-color', '#f5f5f5');
+            $('#headerContact').css('color', '#000000');
+            $("#bodyContact").hide("slow");
+        }
+
+        function openContact() {
+            $('#headerContact').css('background-color', '#489341');
+            $('#headerContact').css('color', 'white');
+            $("#bodyContact").show("slow");
+        }
+
+
+        $("#headerAlgemeen").click(function () {
+            openAlgemeen();
+            closeContact();
+        });
+
+        $("#headerContact").click(function () {
+            openContact();
+            closeAlgemeen();
+        });
+
+
+        openAlgemeen();
+        closeContact();
+        start();
+
+    });
+
+</script>
+
+</body>
+</html>

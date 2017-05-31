@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Stage</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+
+    <link href="..static/css/stagecreate.css" th:href="@{../css/stagecreate.css}" rel="stylesheet" media="screen"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+
+</head>
+<body>
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <div class="row">
+        <h1>Stage toevoegen</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="panel panel-default" >
+                <div id="groen" class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-12">
+                            <h3>Toevoegen</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <form class="form-horizontal" th:object="${stage}" th:action="@{/stageopslaan}" method="POST">
+
+                            <input type="hidden" th:field="*{id}"/>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Stagiair:</label>
+                                    <div class="col-sm-10">
+                                        <select id="cmbStagiair" th:value="${stagiair_id}" name="stagiair_id" class="form-control" >
+                                            <option value="">Select stagiair</option>
+                                            <option th:each="stagiair : ${stagiaires}"
+                                                    th:value="${stagiair.id}"
+                                                    th:text="${stagiair.persoon.naam}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Begeleider:</label>
+                                    <div class="col-sm-10">
+                                        <select id="cmbBegeleider" th:value="${begeleider_id}" name="begeleider_id" class="form-control" >
+                                            <option value="-1">Select begeleider</option>
+                                            <option th:each="begeleider : ${begeleiders}"
+                                                    th:value="${begeleider.id}"
+                                                    th:text="${begeleider.persoon.naam + ' - ' + begeleider.categorie.naam}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Stageopdracht:</label>
+                                    <div class="col-sm-10">
+                                        <select id="cmbStageopdracht" th:value="${opdracht_id}" name="opdracht_id" class="form-control" >
+                                            <option value="">Select stageopdracht</option>
+                                            <option th:each="stageopdracht : ${stageopdrachten}"
+                                                    th:value="${stageopdracht.id}"
+                                                    th:text="${stageopdracht.naam + ' - ' + stageopdracht.categorie.naam}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">startdatum:</label>
+                                    <div class="col-sm-10">
+                                        <input id="datepStartdatum" type="date" class="form-control" th:field="*{startDatum}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">einddatum:</label>
+                                    <div class="col-sm-10">
+                                        <input id="datepEinddatum" type="date" class="form-control" th:field="*{eindDatum}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-10 col-sm-12 center-block">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button id="submit" type="submit" class="btn btn-success btn-block" style="outline: 0; display: none;">Toevoegen</button>
+                                        <button id="toevoegen" type="button" class="btn btn-success btn-block">Toevoegen</button>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div class="col-sm-12">
+                                        <a style="align-self: center" href="/home" class="btn btn-danger btn-block" role="button">Annuleren</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var page = "";
+    $(document).ready(function () {
+
+        $("#cmbStagiair").select2();
+        $("#cmbBegeleider").select2();
+        $("#cmbStageopdracht").select2();
+//        $("#datepStartdatum").select2();
+//        $("#datepEinddatum").select2();
+
+        $( ".form-control" ).change(function() {
+            if ( $(this).val() == "" || $(this).val() == "-1") {
+                $( this ).addClass( "error" );
+            } else {
+                $( this ).removeClass( "error" );
+            }
+
+        });
+
+        $("#toevoegen").click(function () {
+            console.log("hallo");
+            var error = 0;
+
+            $(".form-control").each(function() {
+                if ( $(this).val() == "" || $(this).val() == "-1") {
+                    $( this ).addClass( "error" );
+                    error = error + 1;
+
+                }   else {
+                    $( this ).removeClass( "error" );
+                }
+
+            });
+//            alert("Error: Er zijn " + error + " velden niet ingevuld.");
+
+            if (error == 0) {
+                $('#submit').click();
+            }
+
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

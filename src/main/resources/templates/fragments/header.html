@@ -1,0 +1,75 @@
+!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head lang="en" th:fragment="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.1.1/jquery.min.js"
+            th:src="@{/webjars/jquery/3.1.1/jquery.js}"></script>
+
+    <link rel="shortcut icon" type="image/png" href="..static/images/favicon-16.png" th:href="@{../../images/favicon-16.png}">
+
+
+    <link href="..static/css/menu.css"
+          th:href="@{../../css/menu.css}" rel="stylesheet" media="screen"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+
+
+    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>
+
+    <script src="..static/js/menu.js"
+            th:src="@{../../js/menu.js}"></script>
+
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+               /* var sideslider = $('[data-toggle=collapse-side]');
+                var sel = sideslider.attr('data-target');
+                var sel2 = sideslider.attr('data-target-2');
+                sideslider.click(function(event){
+                    $(sel).toggleClass('in');
+                    $(sel2).toggleClass('out');
+                });*/
+
+                $('.menubar > li > a').click(function() {
+                    $('li').removeClass('actief');
+                    $(this).parent().addClass('actief');
+                });
+                $('.menubar > li > div > a').click(function() {
+                    console.log("kaas");
+                    $('li').removeClass('actief');
+
+//                    $(this).parent().parent().parent().addClass('actief');
+                });
+
+                switch(page) {
+                    case 'zoeken':
+                        $('#zoeken').addClass('actief')
+                        break;
+                    case 'analyseren':
+                        $('#analyseren').addClass('actief')
+                        break;
+                    case 'home':
+                        $('#home').addClass('actief')
+                        break;
+                    case 'evalueren':
+                        $('#evalueren').addClass('actief')
+                        break;
+                    case 'profiel':
+                        $('#profiel').addClass('actief')
+                        break;
+                    default:
+                        break;
+                }
+            });
+        </script>
+    </head>
+    <body>
+
+    </body>
+    </html>

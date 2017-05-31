@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyse</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+    <script src="..static/js/analyse.js" th:src="@{../js/analyse.js}"></script>
+
+    <!--<link href="..static/css/analyse.css" th:href="@{../css/analyse.css}" rel="stylesheet" media="screen"/>-->
+    <link href="..static/css/zoeken.css" th:href="@{../css/zoeken.css}" rel="stylesheet" media="screen"/>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+    <script th:inline="javascript">
+        var page = "analyseren";
+    </script>
+
+</head>
+<body>
+<!--MENU-->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+ <div id="tabcontaineroverzicht" class="container">
+     <ul id="tabheaders" class="nav nav-pills nav-justified">
+
+         <li id="dropdown_pill" class="active dropdown">
+             <a id="dropdownmenu_display" class="dropdown-toggle" data-toggle="dropdown" href="#">Selecteer uw analyse criteria
+                 <span class="caret"></span></a>
+             <ul id="dropdownmenu" class="dropdown-menu">
+                 <li class="analyseOptionLi active"><a class="analyseOption" id="stagiairPerCategorie" data-toggle="pill">Stagiaires per stagecategorie</a></li>
+                 <li class="analyseOptionLi"><a class="analyseOption" id="stagiairPerSchool">Stagiaires per school</a></li>
+                 <li class="analyseOptionLi"><a class="analyseOption" id="gemScorePerSchool">Gemiddelde score per school</a></li>
+
+             </ul>
+         </li>
+     </ul>
+
+     <div class="panel panel-success">
+         <div class="panel-heading">
+             <h4 id="panelheading_zoeken">Stagiaires per stagecategorie</h4>
+
+         </div>
+
+         <div class="panel-body">
+
+             <div class="row chartSpace" style="margin-top:20px">
+                 <div class="col-sm-4 col-sm-offset-4">
+                     <div id="chartBuddy"> </div>
+                 </div>
+             </div>
+
+             <div class="row chartSpace">
+                 <div class="col-xs-10 col-sm-offset-1" style="margin-top:50px">
+                     <div id="chartBody" style="overflow-y:hidden; overflow-x:scroll;"> </div>
+
+                 </div>
+             </div>
+
+
+             <div class="row chartSpace hide">
+                 <div class="col-sm-12">
+                     <div class="row center">
+                         <div style="text-align: center">
+                             <select id="cmbCategorie" th:value="${categorie_id}" name="categorie_id" class="form-control" >
+                                 <option value="">Selecteer categorie</option>
+                                 <option  th:each="categorie : ${categorieen}"
+                                          class="center"
+                                          th:value="${categorie.id}"
+                                          th:text="${categorie.naam}">
+                                 </option>
+                             </select>
+                         </div>
+
+                     </div>
+                     <div class="row">
+                         <div id="barChartBody" style="overflow-y:hidden; overflow-x:scroll;"> </div>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="row chartSpace hide">
+                 <div class="col-sm-12">
+                     <div class="row">
+                         <div id="barChartBody2" style="overflow-y:hidden; overflow-x:scroll;"> </div>
+                     </div>
+                 </div>
+             </div>
+
+
+
+         </div>
+
+     </div>
+
+ </div>
+
+</body>
+</html>
+
+
+

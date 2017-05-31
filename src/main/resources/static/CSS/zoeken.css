@@ -1,0 +1,134 @@
+
+#tabheaders > li > a {
+    background-color: #1F9A46;
+    color: white;
+
+}
+
+select.select_responsive {
+    width: 75% !important;
+}
+
+span.select2 {
+    width: 75% !important;
+}
+
+@media only screen and (max-width: 768px) {
+
+    select.select_responsive {
+        width: 100% !important;
+    }
+
+    span.select2 {
+        width: 100% !important;
+    }
+}
+
+#tabheaders > li > a:hover {
+    background-color: #4AA733;
+    color: white;
+
+}
+
+#tabcontaineroverzicht {
+    margin-top: 2%;
+}
+
+.dropdown-menu {
+    width: 100%;
+    text-align: center;
+
+}
+
+.dropdown-menu>li>a:hover{
+    background: #4AA733 !important;
+}
+
+ul.dropdown-menu>li.active>a{
+    background: #4AA733 !important;
+}
+
+#dropdownmenu_display {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.table-striped > tbody > tr{
+    cursor: pointer;
+}
+
+.paginationBtn {
+    cursor: pointer;
+}
+
+.table-striped>tbody>tr:hover >td {
+    text-decoration: underline;
+    background-color: #dff0d8 !important;
+
+}
+
+.panel {
+    margin-top: 2%;
+}
+.panel-heading {
+    border-top: 1px solid darkgrey !important;
+    border-left: 1px solid darkgrey !important;
+    border-right: 1px solid darkgrey !important;
+}
+.panel-body {
+    border-bottom: 1px solid darkgrey;
+    border-left: 1px solid darkgrey;
+    border-right: 1px solid darkgrey;
+}
+
+thead {
+    background-color: #1F9A46;
+    color: white;
+}
+
+.filterzoeken {
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+
+}
+
+.inhoudzoeken {
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+    margin-top: 3%;
+}
+
+
+/*
+.panel > .panel-heading {
+    background-image: none;
+    background-color: #4AA733;
+
+}*/
+
+svg{
+    display:block;
+    margin:auto;
+}
+
+#cmbCategorie {
+    display:inline-block; !important;
+    width:50% !important;
+    text-align: center !important;
+    align-self: center !important;
+    text-align-last:center !important;
+}
+
+option {
+    text-align-last:center !important;
+}
+
+.center {
+    text-align-last:center !important;
+}
+
+/*row {*/
+    /*align-content: center;*/
+    /*text-align: center;*/
+/*}*/
+

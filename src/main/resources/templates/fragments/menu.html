@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <script src="..static/js/adminpanel.js" th:src="@{../../js/adminpanel.js}"></script>
+
+
+
+</head>
+<body>
+<div th:fragment="menu">
+    <!-- MENU -->
+    <header role="banner" class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button data-toggle="collapse-side" data-target=".side-collapse" data-target-2=".side-collapse-container" type="button" class="navbar-toggle pull-left"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            </div>
+            <div class="navbar-inverse side-collapse in">
+                <nav role="navigation" class="navbar-collapse">
+
+                    <div class="navbar-header">
+                        <a href="/home" class="navbar-left"><img src="../static/images/logo_r.png" height="50" th:src="@{../../images/logo_r.png}"/></a>
+                    </div>
+                    <ul class="menubar nav navbar-nav">
+                        <li id="home"><a href="/home">Home</a></li>
+                        <li id="zoeken"><a href="/stageopdrachten">Zoeken</a></li>
+                        <li sec:authorize="hasRole('ROLE_STAGECOORDINATOR')" id="evalueren" class="dropdown">
+                            <a class="dropbtn">Evalueren</a>
+                            <div th:if="${isBegeleider and not #lists.isEmpty(eigenStagiaires)}" class="dropdown-content">
+                                <a class="drop" th:each="stagiair : ${eigenStagiaires}" th:onclick="'javascript:stagiairEvaluerenClicked(\'' + ${stagiair.id} + '\');'" th:each="stagiair : ${eigenStagiaires}" th:text="${stagiair.persoon.naam}"  > </a>
+                            </div>
+                            <!--#list.isEmpty(eigenStagiaires)-->
+                            <div class="dropdown-content " th:if="${eigenStagiaires.isEmpty()}">
+                                <a class="drop empty"  >U begeleidt geen stagiaires.</a>
+                            </div>
+                        </li>
+                        <li sec:authorize="hasRole('ROLE_BEGELEIDER')" id="evalueren" class="dropdown">
+                            <a class="dropbtn">Evalueren</a>
+                            <div th:if="${isBegeleider and not #lists.isEmpty(eigenStagiaires)}" class="dropdown-content">
+                                <a class="drop" th:each="stagiair : ${eigenStagiaires}" th:onclick="'javascript:stagiairEvaluerenClicked(\'' + ${stagiair.id} + '\');'" th:each="stagiair : ${eigenStagiaires}" th:text="${stagiair.persoon.naam}"  > </a>
+                            </div>
+                            <!--#list.isEmpty(eigenStagiaires)-->
+                            <div class="dropdown-content " th:if="${eigenStagiaires.isEmpty()}">
+                                <a class="drop empty"  >U begeleidt geen stagiaires.</a>
+                            </div>
+                        </li>
+                        <li id="analyseren"><a href="/analyse">Analyseren</a></li>
+                    </ul>
+
+                    <ul class="menubar nav navbar-nav navbar-right">
+                        <li sec:authorize="hasRole('ROLE_STAGECOORDINATOR')"><a href="/admin"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
+                        <li sec:authorize="hasRole('ROLE_STAGECOORDINATOR')"><a href="/profiel"><span class="glyphicon glyphicon-user"></span> Profiel</a></li>
+                        <li sec:authorize="hasRole('ROLE_BEGELEIDER')"><a href="/profiel"><span class="glyphicon glyphicon-user"></span> Profiel</a></li>
+                        <li sec:authorize="hasRole('ROLE_HR')"><a href="/profiel"><span class="glyphicon glyphicon-user"></span> Profiel</a></li>
+                        <li>
+                            <a href="javascript: document.logoutForm.submit()"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+                            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                                <input hidden type="submit" value="Sign Out"/>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+//Commands nieuwe push. !! let altijd op dat je wel op je eigen branch aan het werken bent voor je begint met programmeren en niet op master...
+
+0. Git pull (haalt alle laatste versies van de remote repo binnen van alle branches)
+
+1. Git checkout name_of_your_branch
+
+2. Git status (toont welke lokale files verschillen van de files op de remote repo)
+
+3. Git add -A (maakt bestanden klaar voor commit. -A voegt automatisch alle veranderde files toe, je kan ook speciefieke files toevoegen bijvoorbeel "git add readme.txt")
+
+4. Git commit -m "comment" (commit de toegevoegde bestanden, gebruik altijd -m om een comment bij je commit te plaatsen, is verplicht... bvb "git commit -m "bug fix readme.txt)
+
+5. Git push (pusht de laatste commit)
+
+//Nieuwe branch aanmaken
+
+1. git checkout -b name_of_your_new_branch
+
+2. git push origin name_of_your_new_branch
+
+// naar andere branch gaan
+
+1. git checkout naambranch
+
+//Merge met master
+	//altijd eerst de master mergen naar je eigen branch, als alle conflicten daar opgelost zijn kan je je eigen branch mergen naar de master (om dikke miserie te voorkomen)
+
+1. git checkout name_of_your_branch
+
+   git pull
+
+2. git merge master
+
+--> toont conflicten indien er zijn, los ze op
+--> nadat de conflciten opgelost zijn doe je de standaard commit push, vervolgens ga je naar master branch en doe je hetzelfde:
+
+3. git checkout master
+
+4. git merge name_of_your_branch
+
+--> toont conflicten indien er zijn, los ze op (normaal geen conflicten meer want je hebt de merge als gedaan)
+--> git commit, push
+
+
+

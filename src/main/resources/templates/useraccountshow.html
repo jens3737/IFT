@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Profiel pagina</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <script
+            src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous">
+
+    </script>
+    <link href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet" media="screen"/>
+
+    <script type="text/javascript">
+        var page = 'zoeken';
+    </script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var rol = [[${rol}]];
+        var useraccountID = [[${useraccount.id}]];
+        var geboorteDatum = [[${#dates.format(useraccount.persoon.geboorteDatum, 'yyyy-MM-dd')}]];
+        var geboorteDatum2 = [[${#dates.format(useraccount.persoon.geboorteDatum, 'dd/MM/yyyy')}]];
+        /*]]>*/
+    </script>
+    <script src="..static/js/useraccount.js" th:src="@{../js/useraccount.js}"></script>
+
+
+    <link href="..static/css/useraccountshow.css"
+          th:href="@{../css/useraccountshow.css}" rel="stylesheet" media="screen"/>
+</head>
+
+<body>
+
+<!-- Modal / pop-up panel -->
+<div class="modal fade" id="paswoordModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wachtwoord veranderen</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+
+
+                            <div class="form-group">
+                                <b>Huidig wachtwoord:</b><br>
+                                <p><input type="password" id="txtWachtwoord" class="form-control"> </p>
+                                <br>
+                                <br>
+                                <b>Nieuw wachtwoord:</b><br>
+                                <p><input type="password" id="txtNieuwWachtwoord" class="form-control"> </p>
+                                <br>
+                                <b>Herhaal wachtwoord:</b><br>
+                                <p><input type="password" id="txtHerhaalWachtwoord" class="form-control"> </p>
+                            </div>
+
+                            <div class="form-group">
+
+                            </div>
+
+                            <div id="passwordError" class="alert alert-danger hide" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Error:</span>
+                                Fout:
+                                <ul id="passwordErrorTxt">
+                                </ul>
+                            </div>
+                            <!--<div  class="form-group hide">-->
+                                <!--<b  style="color: red;">Uw huidig wachtwoord is fout of uw nieuw wachtwoord komt niet overeen.</b>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnAnulleren" data-dismiss="modal" data-target="#paswoordModal" value="account" class="btn btn-danger accountBtn  pull-right" style="display: none;" type="button"><span class="glyphicon glyphicon-remove "></span> </button>
+                <button id="btnPWSubmit" value="account" class="btn btn-success accountBtn  pull-right" style="display: none;" type="button"><span class="glyphicon glyphicon-ok "></span> </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <div class="row">
+        <h1>Profiel overzicht<span class="title-label"></span></h1>
+    </div>
+
+    <!-- Begin panel Persoonlijk -->
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="pannel-group">
+                <div id="PanelPersoonlijk" class="panel panel-success">
+                    <div id="headerPersoonlijk" class="panel-heading">
+                        <div class="row">
+                            <div class="col col-xs-12">
+                                <h3 class="titel"><span>Persoonlijk</span>
+                                    <button id="accountEdit" value="account" class="btn btn-success editBtn pull-right" type="button"><span class="glyphicon glyphicon-pencil "></span> </button>
+                                    <button id="accountCancel" value="account" class="btn btn-danger accountBtn cancelBtn pull-right" style="display: none;" type="button"><span class="glyphicon glyphicon-remove "></span> </button>
+                                    <button id="accountSubmit" value="account" class="btn btn-success accountBtn submitBtn pull-right" style="display: none;" type="button"><span class="glyphicon glyphicon-ok "></span> </button>
+                                </h3>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="bodyPersoonlijk" class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-6">
+                                        <form class="form-horizontal">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+
+                                                <div class="form-group">
+                                                    <b>Naam:</b><br>
+                                                    <p><input type="text" id="ucNaam" class="form-control accountInput" th:value="${useraccount.persoon.naam}" disabled="true"> </p>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <b>Gsm:</b><br>
+                                                    <p><input type="tel" id="ucGsm" class="form-control accountInput" th:value="${useraccount.persoon.gsm}" disabled="true"> </p>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <b>Adres:</b><br>
+                                                    <p><input type="text" id="ucAdres" class="form-control accountInput" th:value="${useraccount.persoon.adres}" disabled="true"> </p>
+                                                </div>
+
+                                                <div class="form-group" th:if="${isBegeleider}">
+                                                    <b>functieomschrijving: </b><br>
+                                                    <p><input type="text" id="ucFunctie" class="form-control accountInput" th:value="${functieomschrijving}"  disabled="true"></p>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <b>Geboortedatum: </b><br>
+                                                    <!--th:value="${#dates.format(useraccount.persoon.geboorteDatum, 'dd/MM/yyyy')}"-->
+                                                    <!--value="account"-->
+                                                    <p><input type="date" min="1940-01-01" max="2000-01-01" id="geboortedatum" class="form-control accountInput" disabled="true"></p>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <div class="form-horizontal">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <b>Paswoord:</b><br>
+                                                    <p><input type="text" id="inputPW" value="account" class="form-control" th:value="${'********'}" disabled="true"></p>
+                                                    <input type="button" id="btnAanpassenPW" value="Wachtwoord aanpassen" class="btn btn-info hide" data-toggle="modal" data-target="#paswoordModal">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <b class="pull-left">Geslacht:  </b><br>
+                                                    <p><input type="text" value="account" th:id="geslacht" class="form-control" th:if="${useraccount.persoon.geslacht} == false" th:value="${'Man'}" disabled="true"></p>
+                                                    <p><input type="text" value="account" th:id="geslacht" class="form-control" th:if="${useraccount.persoon.geslacht} == true" th:value="${'Vrouw'}" disabled="true"></p>
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <b>Creationdate:</b><br>
+                                                    <p><input type="text" value="account" th:id="creationdate" class="form-control" th:value="${useraccount.creationDate}" disabled="true"></p>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <b>Email:</b><br>
+                                                    <p><input id="ucEmail" type="email"  value="account" class="form-control" th:value="${useraccount.email}" disabled="true"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    $(document).ready(function(){
+
+        $("#geboortedatum").val(geboorteDatum);
+    });
+</script>
+
+<div id="passwordAlert" class="row" style="display: none;">
+    <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+        <div class="alert alert-success text-center">
+                <strong>Success!</strong> Wachtwoord gewijzigd.</p>
+        </div>
+    </div>
+</div>
+
+<div id="updateAlert" class="row" style="display: none;">
+    <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+        <div class="alert alert-success text-center">
+            <strong>Success!</strong> Gegevens gewijzigd.</p>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

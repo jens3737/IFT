@@ -1,0 +1,6 @@
+groene kleuren van realdolmen logo
+
+donker: #1F9A46
+lichter: #4AA733
+nog lichter: #88BD23
+lichtst: #B5CC03

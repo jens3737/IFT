@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Error 403</title>
+
+    <link href="..static/css/404.css" th:href="@{../css/404.css}" rel="stylesheet" media="screen"/>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.1.1/jquery.min.js" th:src="@{/webjars/jquery/3.1.1/jquery.js}"></script>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>
+
+</head>
+    <title>Access Denied</title>
+</head>
+<body marginwidth="0" marginheight="0">
+<div id="block_error">
+    <div>
+        <h2>Access Denied</h2>
+        <p>
+            U heeft geen toegang tot deze pagina. Bent u zeker dat u de juiste <b>URL</b> heeft ingevoerd?
+        </p>
+        <p>
+            Via <a href="/home">deze</a> link kom je terug op de home pagina. <a class="btn btn-info" href="/home">Home</a>
+        </p>
+
+
+    </div>
+</div>
+
+</body>
+</html>

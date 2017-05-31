@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Useraccount</title>
+
+    <!-- BOOTSTRAP & JQ -->
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <script type="text/javascript">
+        /*$(document).ready(function() {
+         var sideslider = $('[data-toggle=collapse-side]');
+         var sel = sideslider.attr('data-target');
+         var sel2 = sideslider.attr('data-target-2');
+         sideslider.click(function(event){
+         $(sel).toggleClass('in');
+         $(sel2).toggleClass('out');
+         });
+         });*/
+    </script>
+
+    <link href="..static/css/useraccountcreate.css" th:href="@{../css/useraccountcreate.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+<!-- MENU -->
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+<div class="container">
+    <div class="row">
+        <h1>Voeg een useraccount toe</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <div class="panel panel-default" >
+                <div id="groen" class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-12">
+                            <h3>Toevoegen</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <form class="form-horizontal" th:object="${persoon}" th:action="@{/useraccountopslaan}" novalidate method="POST">
+
+                            <input type="hidden" th:field="*{id}"/>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Naam:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"  maxlength="80" class="form-control validation" th:field="*{naam}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <p id="emailerror" class="hide" style="color: red">Email is reeds geregistreerd.</p>
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Email:</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" id="email" maxlength = "50" class="form-control validation" th:field="*{email}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">GSM:</label>
+                                    <div class="col-sm-10">
+                                        <input id="gsmlength" type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" class="form-control validation" maxlength = "15" th:field="*{gsm}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Adres:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" maxlength = "55" class="form-control validation" th:field="*{adres}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="text" id="inputGeboorteDatum" class="hide form-control" th:field="*{geboorteDatum}" required/>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Rol:</label>
+                                    <div class="col-sm-10">
+                                        <select id="dropdownRol" th:value="${rol_id}" name="rol_id" class="form-control" required>
+                                            <option th:value="-1" selected>kies een rol</option>
+                                            <option th:each="rol : ${rollen}"
+                                                    th:value="${rol.id}"
+                                                    th:text="${rol.benaming}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10" id="functieomschrijving" >
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Functieomschrijving:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtFunctieOmschrijving"  class="form-control" th:value="${functieomschrijving}" name="functieomschrijving"  required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-10 col-md-10 col-sm-10" id="begeleiderCategorie">
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Categorie:</label>
+                                    <div class="col-sm-10">
+                                        <select id="dropdownCat" th:value="${categorie_id}" name="categorie_id" class="form-control" required>
+                                            <option th:value="-1" selected>kies een categorie</option>
+                                            <option th:each="categorie : ${categorieen}"
+                                                    th:value="${categorie.id}"
+                                                    th:text="${categorie.naam}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <div class="form-group">
+                                    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Geslacht</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="options" th:field="*{geslacht}" id="optionsRadiosInline1" th:value="0" th:checked="*{true}"/>Man
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="options" th:field="*{geslacht}" id="optionsRadiosInline2" th:value="1" th:checked="*{false}"/>Vrouw
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12 col-md-10 col-sm-12 center-block">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button id="submit" type="submit" class="btn btn-success btn-block" style="outline: 0; display: none;">Toevoegen</button>
+                                        <button id="toevoegen" type="button" class="btn btn-success btn-block">Toevoegen</button>
+                                    </div>
+                                    <br>
+                                    <div class="col-sm-12">
+                                        <button id="annuleren"  style="align-self: center" th:align="center" type="button" class="btn btn-danger btn-block">Annuleren</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /* Script voor het accordion menu */
+    $(document).ready(function () {
+        var page = "";
+
+        $( "#dropdownRol" ).change(function() {
+            if ($(this).val() == 1 || $(this).val() == 2) {
+                $('#functieomschrijving').show();
+                $('#begeleiderCategorie').show();
+            }
+            else {
+                $('#functieomschrijving').hide();
+                $('#begeleiderCategorie').hide();
+            }
+        });
+
+        $("#email").change(function() {
+            $("#emailerror").addClass("hide");
+        });
+
+        $( "#annuleren" ).click(function() {
+            location.href = "/admin"
+        });
+
+        $( ".form-control" ).focus(function() {
+            if($(this).hasClass("error")){
+                $(this).removeClass("error");
+            }
+        });
+
+
+        $("#toevoegen").click(function () {
+            /*Jens*/
+            var error = 0;
+
+            $(".validation").each(function () {
+
+                /*Valideer of alle velden zijn ingevuld*/
+                if($(this).val() == ""){
+                    $(this).addClass("error");
+                    error =1;
+                }
+
+                /*Valdieer of rol is geselecteerd*/
+                if($( "#dropdownRol" ).val() == -1){
+                    $( "#dropdownRol" ).addClass("error");
+                    error =1;
+                }
+
+                /*Valideer of functieomschrijving ingevuld is (indien rol 1 of 2)*/
+                if(($( "#dropdownRol" ).val() == 1 || $( "#dropdownRol" ).val() == 2)){
+                    if($("#txtFunctieOmschrijving").val() == ""){
+                        $("#txtFunctieOmschrijving").addClass("error");
+                        error =1;
+                    }
+                    if($("#dropdownCat").val() == -1){
+                        $("#dropdownCat").addClass("error");
+                        error=1;
+                    }
+                }
+
+                if(error > 0){
+                    return;
+                }
+            })
+
+
+//
+//            /*jef*/
+//            var error = 0;
+//
+//            $(".form-control").each(function() {
+//                if ($( "#dropdownRol" ).val() == 1 || $( "#dropdownRol" ).val() == 2) {
+//                    // FUNCTIEOMSCHRIJVING EN CATEGORIE MAG GETOONT WORDEN
+//                    // Rol = stagecoordinator of begeleider
+//                    if ( $(this).val() == "" || $(this).val() == "-1") {
+//                        // Value is nog niet ingevuld
+//                        $( this ).addClass( "error" );
+//                        error = error + 1;
+//                    }   else {
+//                        // Value is ingevuld
+//                        $( this ).removeClass( "error" );
+//                    }
+//
+//                } else {
+//                    // mogen NIET getoont worden en dus niet gecontrolleerd - Jef
+//                    // Rol = HR of guest
+//                    if ($(this).attr('id') == "txtFunctieOmschrijving" || $(this).attr('id') == "dropdownCat") {
+//                        // Dit vak moet niet gehighlight worden
+//                        $( this ).removeClass( "error" );
+//                    } else {
+//                        if ( $(this).val() == "" || $(this).val() == "-1") {
+//                            // Value is nog niet ingevuld
+//                            $( this ).addClass( "error" );
+//                            error = error + 1;
+//                        }   else {
+//                            // Value is ingevuld
+//                            $( this ).removeClass( "error" );
+//                        }
+//                    }
+//                }
+//            });
+
+            // Email check - Kijken of deze reeds in de DB aanwezig is
+            var postData ={};
+            postData['email'] = $("#email").val();
+            $.ajax(
+                {
+                    url: "/checkEmailExists",
+                    type: 'POST',
+                    data: postData,
+                    dataType : 'json',
+                    async: false,
+                    success: function (data) {
+                        console.log("Check email Success");
+                        console.log(data);
+
+                        // Indien data == false => Email adres staat ng niet in DB
+                        if (data == false && error ==0) {
+                            $('#submit').click();
+                        }
+                        else if(data && error == 0){
+                            $("#emailerror").removeClass("hide");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert("We are sorry, something went wrong..." + textStatus + " " + errorThrown+ "!");
+                    }
+                });
+
+        });
+
+        $('#inputGeboorteDatum').val("1970-01-01");
+        $('#functieomschrijving').hide();
+        $('#begeleiderCategorie').hide();
+    });
+</script>
+
+
+
+
+</body>
+</html>

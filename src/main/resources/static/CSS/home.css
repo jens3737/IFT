@@ -1,0 +1,210 @@
+body {
+    padding-top: 50px;
+    position: relative;
+
+}
+
+h1 {
+    color: #ccc;
+    text-align: center;
+}
+
+a {
+    color: #ccc;
+    text-decoration: none;
+    outline: none;
+}
+
+
+.panel-heading {
+    border-top: 1px solid darkgrey !important;
+    border-left: 1px solid darkgrey !important;
+    border-right: 1px solid darkgrey !important;
+}
+.panel-body {
+    border-bottom: 1px solid darkgrey;
+    border-left: 1px solid darkgrey;
+    border-right: 1px solid darkgrey;
+}
+
+thead {
+    background-color: #1F9A46;
+    color: white;
+}
+
+pre {
+    tab-size: 8;
+}
+
+.title-label{
+    font-weight:400;
+    font-size:24px;
+}
+
+.navbar-barnd{
+    vertical-align : middle;
+    line-height:45px;
+}
+
+.btn-primary.create {
+    margin-top:10px;
+}
+
+td {
+    word-wrap: break-word;
+}
+
+.btn:active,.btn:focus{
+    outline: none !important;
+}
+
+.table-striped > tbody > tr{
+    cursor: pointer;
+}
+
+.table-striped > tbody > tr:hover{
+    text-decoration: underline;
+    background-color: #dff0d8 !important;
+}
+
+
+
+
+
+
+
+
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    /*background-color: rgb(92, 184, 92);*/
+;;
+}
+
+/* Style the links inside the tab */
+div.tab a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+    width: 25%;
+}
+
+.short {
+    width: auto;
+}
+.long {
+    width: auto;
+}
+
+/* Change background color of links on hover */
+div.tab a:hover {
+    background-color: #4cae4c;
+
+}
+
+/* Create an active/current tablink class */
+div.tab a:focus, .active {
+    background-color: #4cae4c;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.responsible {
+    font-weight: bold;
+    text-decoration: underline;
+}
+.closer {
+    color: blue;
+}
+.closer.responsible {
+    color: #aedcff;
+}
+.approved {
+    color: green;
+}
+
+table.table-striped {
+    table-layout: fixed;
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 769px) {
+    #logout-btn{
+        float: right;
+    }
+    div.tab a {
+        font-size: 17px;
+
+    }
+}
+@media screen and (max-width: 768px) {
+    .side-collapse-container{
+        width:100%;
+        position:relative;
+        left:0;
+        transition:left .4s;
+    }
+
+    div.tab a {
+        font-size: 14px;
+
+    }
+
+
+    .side-collapse-container.out{
+        left:200px;
+    }
+
+    #logout-btn{
+        position: absolute;
+        bottom: 5px;
+    }
+
+    .side-collapse {
+        top:50px;
+        bottom:0;
+        left:0;
+        width:200px;
+        position:fixed;
+        overflow:hidden;
+        transition:width .4s;
+    }
+    .side-collapse.in {
+        width:0;
+    }
+
+    label span {
+        display: none;
+    }
+
+    label .fa {
+        font-size: 16px;
+    }
+
+    .tab_container {
+        width: 98%;
+    }
+}
+

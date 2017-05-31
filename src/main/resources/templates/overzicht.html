@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Overzicht</title>
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+
+    <link href="..static/css/overzicht.css"
+          th:href="@{css/overzicht.css}" rel="stylesheet" media="screen"/>
+
+    <script src="..static/js/overzicht.js" th:src="@{js/home.js}"></script>
+    <script>
+        function stageopdrachtRowClicked(value) {
+            location.href = "/stageopdracht/"+value;
+        }
+
+        function stagiairRowClicked(value) {
+            location.href = "/stagiair/"+value;
+        }
+    </script>
+
+</head>
+<body>
+
+<!--/*/ <th:block th:include="fragments/menu :: menu"></th:block> /*/-->
+
+
+<div class="container">
+    <h1>Overzicht <span class="title-label"></span></h1>
+
+    <div class="tab">
+        <a href="javascript:void(0)" class="tablinks" id="tabStageopdracht">Stageopdrachten</a>
+        <a href="javascript:void(0)" class="tablinks" id="tabStagiair">Stagiaires</a>
+        <a href="javascript:void(0)" class="tablinks" id="tabSchool">Scholen</a>
+        <a href="javascript:void(0)" class="tablinks" id="tabStagebegeleider">Stagebegeleiders</a>
+    </div>
+
+
+    <div id="tabStagiairs" class="tabcontent" >
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Familienaam</th>
+                            <th>School</th>
+                            <th>Richting</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:onclick="'javascript:stagiairRowClicked(\'' + ${stagiair.id} + '\');'" th:each="stagiair : ${stagiaires}">
+
+                            <td th:text="${stagiair.persoon.voornaam}"></td>
+                            <td th:text="${stagiair.persoon.familienaam}"></td>
+                            <td th:text="${stagiair.school.naam}"></td>
+                            <td th:text="${stagiair.studierichting}"></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-backward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li class="disabled"><a href="#">...</a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="tabStageopdrachten" class="tabcontent">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Categorie</th>
+                            <th>Locatie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:onclick="'javascript:stageopdrachtRowClicked(\'' + ${stageopdracht.id} + '\');'" th:each="stageopdracht : ${stageopdrachten}">
+                            <td th:text="${stageopdracht.naam}"></td>
+                            <td th:text="${stageopdracht.categorie.naam}"></td>
+                            <td th:text="${stageopdracht.locatie}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-backward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li class="disabled"><a href="#">...</a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="tabStagebegeleiders" class="tabcontent">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Familienaam</th>
+                            <th>Email</th>
+                            <th>gsm</th>
+                            <th>functie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="begeleider : ${begeleiders}">
+                            <td th:text=" ${begeleider.persoon.voornaam} "></td>
+                            <td th:text="${begeleider.persoon.familienaam}"></td>
+                            <td th:text="${begeleider.persoon.email}"></td>
+                            <td th:text="${begeleider.persoon.gsm}"></td>
+                            <td th:text="${begeleider.functieOmschrijving}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-backward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li class="disabled"><a href="#">...</a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="tabScholen" class="tabcontent">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Adres</th>
+                            <th>Contactnummer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="school : ${scholen}">
+                            <td th:text="${school.naam}"></td>
+                            <td th:text="${school.adres}"></td>
+                            <td th:text="${school.contactnummer}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="pagination">
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-backward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li class="disabled"><a href="#">...</a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
+                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        function closeAllTabs() {
+            // Close all tabs
+            document.getElementById("tabStagiairs").style.display = 'none';
+            document.getElementById("tabStageopdrachten").style.display = 'none';
+            document.getElementById("tabStagebegeleiders").style.display = 'none';
+            document.getElementById("tabScholen").style.display = 'none';
+
+            $("#tabStagiair").removeClass(" active");
+            $("#tabStageopdracht").removeClass(" active");
+            $("#tabStagebegeleider").removeClass(" active");
+            $("#tabSchool").removeClass(" active");
+        }
+
+
+        $("#tabStagiair").click(function () {
+            closeAllTabs();
+            document.getElementById('tabStagiairs').style.display = 'block';
+            document.getElementById('tabStagiair').className = "active";
+        });
+        $("#tabStageopdracht").click(function () {
+            closeAllTabs();
+            openStageopdrachten();
+        });
+
+        $("#tabStagebegeleider").click(function () {
+            closeAllTabs();
+            document.getElementById('tabStagebegeleider').className = "active";
+            document.getElementById('tabStagebegeleiders').style.display = 'block';
+        });
+
+        $("#tabSchool").click(function () {
+            closeAllTabs();
+            document.getElementById('tabSchool').className = "active";
+            document.getElementById('tabScholen').style.display = 'block';
+        });
+
+        function openStageopdrachten() {
+            document.getElementById('tabStageopdracht').className = "active";
+            document.getElementById('tabStageopdrachten').style.display = 'block';
+        }
+        openStageopdrachten();
+    });
+
+</script>
+</body>
+
+
+
+
+
+</html>
